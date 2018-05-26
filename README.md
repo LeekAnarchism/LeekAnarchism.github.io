@@ -1,6 +1,10 @@
+Click here
+----------
+[for the actual thing](index.html)
+
 Usage
 -----
-
+If you want to host on a local server:
 ```
 npm install
 npm start
