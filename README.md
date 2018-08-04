@@ -1,6 +1,6 @@
 Click here
 ----------
-[for the actual thing](index.html)
+[for the actual thing](https://leekanarchism.github.io/index.html)
 
 Usage
 -----
