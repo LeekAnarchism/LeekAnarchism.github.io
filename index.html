@@ -38,6 +38,8 @@
 			Use the rear-facing camera
 			<br />
 			Look around you
+			<br />
+			Tap to freeze
 		</div>
 		</div>
 
@@ -87,7 +89,11 @@
 
 				window.addEventListener( 'resize', onWindowResize, false );
 
+				document.body.addEventListener('click', toggleMovement, true);
+			}
 
+			function toggleMovement() {
+				controls.enabled = !controls.enabled;
 			}
 
 			function animate() {
