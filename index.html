@@ -43,10 +43,10 @@
 		</div>
 		</div>
 
-		<!-- <video id="gum-local" autoplay playsinline></video> -->
+		<video id="gum-local" autoplay playsinline></video>
 
 		<script src="three.js"></script>
-		<!-- <script src="video.js"></script> -->
+		<script src="video.js"></script>
 		<script src="DeviceOrientationControls.js"></script>
 
 		<script>
@@ -65,7 +65,7 @@
 				// geometry.scale(1,1,1);
 
 				// var loader = new THREE.CubeTextureLoader();
-				let url = 'ost_b_flipped.png';
+				let url = 'starchartgimped.png';
 
 				// var textureCube = loader.load( [
 				// 	'ost_b_flipped.png','lam_flipped.png',
@@ -73,16 +73,23 @@
 				// 	url,url
 				// ] );
 
-				// let texture = new THREE.ImageLoader().load(url);
-				// let material = new THREE.MeshBasicMaterial({map: texture});
 				// let material = new THREE.MeshBasicMaterial({color: 0xffff00, side: THREE.DoubleSide});
 				// let plane = new THREE.Mesh(geometry, material);
 				// scene.add(plane);
 
-				var geometry = new THREE.PlaneGeometry( 5, 20, 32 );
-				var material = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide} );
+				// let texture = new THREE.ImageLoader().load(url);
+				var texture = new THREE.TextureLoader().load(url);
+				var geometry = new THREE.PlaneGeometry(5, 5);
+				let material = new THREE.MeshBasicMaterial({map: texture, side: THREE.FrontSide,
+transparent: true
+				});
+				// var material = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide} );
 				var plane = new THREE.Mesh( geometry, material );
+				plane.position.x = 0;
+				plane.position.y = 0;
+				plane.position.z = -4;
 				scene.add( plane );
+				addHelper(scene)
 
 				// var material = new THREE.MeshBasicMaterial( {
 				// 	color: 0xffffff,
@@ -102,6 +109,15 @@
 				window.addEventListener( 'resize', onWindowResize, false );
 
 				document.body.addEventListener('click', toggleMovement, true);
+			}
+
+			function addHelper(scene) {
+				// Some big ol' purple grid, in case that's helpful
+				var helperGeometry = new THREE.BoxBufferGeometry( 100, 100, 100, 4, 4, 4 );
+				var helperMaterial = new THREE.MeshBasicMaterial( { color: 0xff00ff, wireframe: true } );
+				var helper = new THREE.Mesh( helperGeometry, helperMaterial );
+				scene.add( helper );
+
 			}
 
 			function toggleMovement() {
