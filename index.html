@@ -61,45 +61,21 @@
 				controls = new THREE.DeviceOrientationControls( camera );
 				scene = new THREE.Scene();
 
-				// var geometry = new THREE.BoxGeometry( 100, 100, 100 );
-				// geometry.scale(1,1,1);
+				let url = 'ost.png';
 
-				// var loader = new THREE.CubeTextureLoader();
-				let url = 'starchartgimped.png';
-
-				// var textureCube = loader.load( [
-				// 	'ost_b_flipped.png','lam_flipped.png',
-				// 	url,url,
-				// 	url,url
-				// ] );
-
-				// let material = new THREE.MeshBasicMaterial({color: 0xffff00, side: THREE.DoubleSide});
-				// let plane = new THREE.Mesh(geometry, material);
-				// scene.add(plane);
-
-				// let texture = new THREE.ImageLoader().load(url);
 				var texture = new THREE.TextureLoader().load(url);
 				var geometry = new THREE.PlaneGeometry(5, 5);
-				let material = new THREE.MeshBasicMaterial({map: texture, side: THREE.FrontSide,
-transparent: true
+				let material = new THREE.MeshBasicMaterial({
+					map: texture, side: THREE.FrontSide, transparent: true
 				});
-				// var material = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide} );
+
 				var plane = new THREE.Mesh( geometry, material );
 				plane.position.x = 0;
 				plane.position.y = 0;
 				plane.position.z = -4;
-				scene.add( plane );
+				scene.add(plane);
+				
 				addHelper(scene)
-
-				// var material = new THREE.MeshBasicMaterial( {
-				// 	color: 0xffffff,
-				// 	// envMap: textureCube,
-				// 	// side: THREE.BackSide,
-				// 	transparent: true, opacity: 0.5
-				//  } );
-				// var cube = new THREE.Mesh( geometry, material );
-
-				// scene.add(cube);
 
 				renderer = new THREE.WebGLRenderer( { antialias: true, alpha: true } );
 				renderer.setPixelRatio( window.devicePixelRatio );
