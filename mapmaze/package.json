@@ -1,0 +1,16 @@
+{
+  "name": "3demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "DeviceOrientationControls.js",
+  "dependencies": {
+    "http-server": "^0.11.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Tests are for the weak\" && exit 1",
+    "start": "http-server -p 8080"
+  },
+  "author": "",
+  "license": "ISC"
+}
