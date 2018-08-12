@@ -22,6 +22,10 @@
 				text-align:center;
 			}
 
+			#unfreeze-hint {
+				color: #0083ae;
+			}
+
 			video {
 				position: absolute;
 				z-index: -1;
@@ -39,7 +43,8 @@
 			<br />
 			Look around you
 			<br />
-			Tap to freeze
+			<span id="freeze-hint">Tap to freeze</span>
+			<span id="unfreeze-hint" style="display:none">Frozen. Tap to unfreeze</span>
 		</div>
 		</div>
 
@@ -108,14 +113,20 @@
 
 			function toggleMovement() {
 				controls.enabled = !controls.enabled;
+				const freezeHint = document.getElementById('freeze-hint');
+				const unfreezeHint = document.getElementById('unfreeze-hint');
+				if (controls.enabled) {
+					freezeHint.style.display = "none";
+					unfreezeHint.style.display = "";
+				} else {
+					freezeHint.style.display = "";
+					unfreezeHint.style.display = "none";
+				}
 			}
 
 			function animate() {
 
 				window.requestAnimationFrame( animate );
-				// lamb.rotation.x = lamb.rotation.x + 0.1;
-				// ostrich.rotation.y = ostrich.rotation.y + 0.1;
-				// bear.rotation.y = bear.rotation.y + 0.1;
 
 				controls.update();
 				renderer.render( scene, camera );
