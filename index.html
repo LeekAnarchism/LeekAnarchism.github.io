@@ -52,30 +52,36 @@
 		<script>
 
 			var camera, scene, renderer, controls;
+			var ostrich, bear;
 
 			init();
 			animate();
+
+			function createPlane(image, pos) {
+				var texture = new THREE.TextureLoader().load(image);
+				var geometry = new THREE.PlaneGeometry(5, 5);
+				let material = new THREE.MeshBasicMaterial({
+					map: texture, side: THREE.DoubleSide, transparent: true
+				});
+
+				var plane = new THREE.Mesh( geometry, material );
+				plane.position.x = pos[0];
+				plane.position.y = pos[1];
+				plane.position.z = pos[2];
+				return plane;
+			}
 
 			function init() {
 				camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 1100 );
 				controls = new THREE.DeviceOrientationControls( camera );
 				scene = new THREE.Scene();
 
-				let url = 'ost.png';
+				ostrich = createPlane('ost_small.png', [0,0,-4]);
+				scene.add(ostrich);
 
-				var texture = new THREE.TextureLoader().load(url);
-				var geometry = new THREE.PlaneGeometry(5, 5);
-				let material = new THREE.MeshBasicMaterial({
-					map: texture, side: THREE.FrontSide, transparent: true
-				});
-
-				var plane = new THREE.Mesh( geometry, material );
-				plane.position.x = 0;
-				plane.position.y = 0;
-				plane.position.z = -4;
-				scene.add(plane);
-				
-				addHelper(scene)
+				bear = createPlane('ursa.png', [4,0,0]);
+				bear.rotation.y = -Math.PI / 2;
+				scene.add(bear);
 
 				renderer = new THREE.WebGLRenderer( { antialias: true, alpha: true } );
 				renderer.setPixelRatio( window.devicePixelRatio );
@@ -103,6 +109,8 @@
 			function animate() {
 
 				window.requestAnimationFrame( animate );
+				// ostrich.rotation.y = ostrich.rotation.y + 0.1;
+				// bear.rotation.y = bear.rotation.y + 0.1;
 
 				controls.update();
 				renderer.render( scene, camera );
