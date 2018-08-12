@@ -40,29 +40,90 @@
 <div id='position_marker'></div>
 
 <script>
-const topleft = [51.5560, -0.161];
-const bottomright = [51.5540, -0.159];
 
-function geo_success(position) {
-  console.log("updated pos")
+const sub = (v1, v2) => [v1[0] - v2[0], v1[1] - v2[1]];
+
+const invertMatrix = (matrix) => {
+  var a = matrix[0], b = matrix[1];
+  var c = matrix[2], d = matrix[3];
+  
+  var mag = (a*d - b*c);
+  return [
+  	d/mag, -b/mag,
+  	-c/mag, a/mag
+  ];	
+};
+
+// Just for my sanity, please don't show me anything greater
+// than 10 d.p. I really don't care.
+const round = (x) => {
+	const scale = Math.pow(10, 10);
+	return Math.round(x * scale) / scale;
+};
+
+const multiplyMatrixAndPoint = (matrix, vector) => {
+  var a = matrix[0], b = matrix[1];
+  var c = matrix[2], d = matrix[3];
+  
+  var x = vector[0];
+  var y = vector[1];
+  
+  var resultX = (x * a) + (y * b);
+  var resultY = (x * c) + (y * d);
+  return [round(resultX), round(resultY)];
+};
+
+// Co-ordinates for your rectangular play area.
+// Only topleft, topright, bottomleft are required.
+// bottomright should be provided for a sanity check your area
+// is vaguely rectangular.
+const topleft = [0,0];
+const topright = [1,0];
+const bottomleft = [0,1];
+const bottomright = [1,1];
+
+const origin = topleft;
+
+const toprightTransformed = sub(topright, origin);
+const bottomleftTransformed = sub(bottomleft, origin);
+
+const skewMatrix = [
+	toprightTransformed[0], bottomleftTransformed[0],
+	toprightTransformed[1], bottomleftTransformed[1],
+];
+const positionTransform = invertMatrix(skewMatrix);
+
+const getRelativeCoordinates = (v) => {
+	const translated = sub(v, origin);
+	return multiplyMatrixAndPoint(positionTransform, translated);
+}
+
+// Uncomment for sanity checks
+// console.log("should be [0,0]", getRelativeCoordinates(topleft));
+// console.log("should be [1,0]", getRelativeCoordinates(topright));
+// console.log("should be [0,1]", getRelativeCoordinates(bottomleft));
+// console.log("should be [1,1]", getRelativeCoordinates(bottomright));
+
+const pos = document.getElementById('position_marker');
+const map = document.getElementById('map');
+
+const geo_success = (position) => {
+  console.log("updated pos:", position.coords)
   drawpos(position.coords.latitude, position.coords.longitude);
 }
 
-function drawpos(lat, long) {
-	const x = (topleft[0] - lat) / (topleft[0] - bottomright[0])
-	const y = (topleft[1] - long) / (topleft[1] - bottomright[1])
+const drawpos = (lat, long) => {
+	const [x,y] = getRelativeCoordinates([lat, long]);
 	document.getElementById("location").innerText = `Lat: ${lat}, long: ${long}
 	x: ${x}, y: ${y}
 	`;
-	const pos = document.getElementById('position_marker');
-	const map = document.getElementById('map');
 
 	pos.style.left = (x * map.width) + 'px';
 	pos.style.top = (y * map.height) + 'px';
 }
 
-function geo_error() {
-  alert("Sorry, no position available.");
+geo_error = (e) => {
+  console.error("Error fetching position: " + e.message);
 }
 
 var geo_options = {
