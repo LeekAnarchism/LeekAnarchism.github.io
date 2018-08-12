@@ -57,7 +57,6 @@
 		<script>
 
 			var camera, scene, renderer, controls;
-			var ostrich, bear, lamb;
 
 			init();
 			animate();
@@ -81,14 +80,14 @@
 				controls = new THREE.DeviceOrientationControls( camera );
 				scene = new THREE.Scene();
 
-				ostrich = createPlane('ost_small.png', [0,0,-4]);
+				const ostrich = createPlane('ost_small.png', [0,0,-4]);
 				scene.add(ostrich);
 
-				bear = createPlane('ursa_small.png', [4,0,0]);
+				const bear = createPlane('ursa_small.png', [4,0,0]);
 				bear.rotation.y = -Math.PI / 2;
 				scene.add(bear);
 
-				lamb = createPlane('lam_small.png', [0,4,0]);
+				const lamb = createPlane('lam_small.png', [0,4,0]);
 				lamb.rotation.x = Math.PI / 2;
 				scene.add(lamb);
 
