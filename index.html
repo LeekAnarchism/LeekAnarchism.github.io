@@ -52,7 +52,7 @@
 		<script>
 
 			var camera, scene, renderer, controls;
-			var ostrich, bear;
+			var ostrich, bear, lamb;
 
 			init();
 			animate();
@@ -79,9 +79,13 @@
 				ostrich = createPlane('ost_small.png', [0,0,-4]);
 				scene.add(ostrich);
 
-				bear = createPlane('ursa.png', [4,0,0]);
+				bear = createPlane('ursa_small.png', [4,0,0]);
 				bear.rotation.y = -Math.PI / 2;
 				scene.add(bear);
+
+				lamb = createPlane('lam_small.png', [0,4,0]);
+				lamb.rotation.x = Math.PI / 2;
+				scene.add(lamb);
 
 				renderer = new THREE.WebGLRenderer( { antialias: true, alpha: true } );
 				renderer.setPixelRatio( window.devicePixelRatio );
@@ -109,6 +113,7 @@
 			function animate() {
 
 				window.requestAnimationFrame( animate );
+				// lamb.rotation.x = lamb.rotation.x + 0.1;
 				// ostrich.rotation.y = ostrich.rotation.y + 0.1;
 				// bear.rotation.y = bear.rotation.y + 0.1;
 
